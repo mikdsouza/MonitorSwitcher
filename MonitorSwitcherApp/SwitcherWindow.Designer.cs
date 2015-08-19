@@ -34,10 +34,10 @@
             this.bReset = new System.Windows.Forms.Button();
             this.gvProfiles = new System.Windows.Forms.DataGridView();
             this.bDelete = new System.Windows.Forms.Button();
+            this.sfdProfileXML = new System.Windows.Forms.SaveFileDialog();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pathDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.profileBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.sfdProfileXML = new System.Windows.Forms.SaveFileDialog();
             this.pButtonPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvProfiles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.profileBindingSource)).BeginInit();
@@ -98,6 +98,7 @@
             this.gvProfiles.ShowEditingIcon = false;
             this.gvProfiles.Size = new System.Drawing.Size(284, 232);
             this.gvProfiles.TabIndex = 2;
+            this.gvProfiles.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvProfiles_CellDoubleClick);
             // 
             // bDelete
             // 
@@ -109,6 +110,11 @@
             this.bDelete.Text = "Delete Profile";
             this.bDelete.UseVisualStyleBackColor = true;
             this.bDelete.Click += new System.EventHandler(this.bDelete_Click);
+            // 
+            // sfdProfileXML
+            // 
+            this.sfdProfileXML.DefaultExt = "xml";
+            this.sfdProfileXML.Filter = "XML Files (*.xml) | *.xml";
             // 
             // nameDataGridViewTextBoxColumn
             // 
@@ -128,11 +134,6 @@
             // profileBindingSource
             // 
             this.profileBindingSource.DataSource = typeof(MonitorSwitcherApp.Profile);
-            // 
-            // sfdProfileXML
-            // 
-            this.sfdProfileXML.DefaultExt = "xml";
-            this.sfdProfileXML.Filter = "XML Files (*.xml) | *.xml";
             // 
             // SwitcherWindow
             // 

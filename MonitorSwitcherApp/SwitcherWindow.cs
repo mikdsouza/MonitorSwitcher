@@ -65,7 +65,32 @@ namespace MonitorSwitcherApp
             if (profileBindingSource.Current != null)
             {
                 Profile selection = (Profile)profileBindingSource.Current;
-                MessageBox.Show(selection.Path);
+                
+                if(File.Exists(selection.Path))
+                {
+                    File.Delete(selection.Path);
+                }
+
+                profileBindingSource.RemoveCurrent();
+                Properties.Settings.Default.Profiles.Remove(selection.Path);
+            }
+        }
+
+        private void gvProfiles_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            Profile selection = (Profile)profileBindingSource[e.RowIndex];
+
+            if (File.Exists(selection.Path))
+            {
+                MonitorSwitcher.LoadDisplaySettings(selection.Path);
+            }
+            else
+            {
+                if(MessageBox.Show("Profile not found. Delete profile?", "Error", MessageBoxButtons.YesNo, 
+                    MessageBoxIcon.Error,MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    bDelete_Click(sender, null);
+                }
             }
         }
     }
