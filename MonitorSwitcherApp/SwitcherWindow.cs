@@ -1,4 +1,5 @@
 ﻿using MonitorSwitcherGUI;
+using MovablePython;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -99,5 +100,6 @@ namespace MonitorSwitcherApp
     {
         public string Name { get; set; }
         public string Path { get; set; }
+        public Hotkey hotkey { get; set; }
     }
 }
