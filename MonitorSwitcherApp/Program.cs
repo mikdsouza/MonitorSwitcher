@@ -16,6 +16,7 @@ namespace MonitorSwitcherApp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new SwitcherWindow());
         }
     }
 }
