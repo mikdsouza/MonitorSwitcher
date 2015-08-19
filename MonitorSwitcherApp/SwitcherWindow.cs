@@ -1,14 +1,10 @@
 ﻿using MonitorSwitcherGUI;
 using MovablePython;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 
 namespace MonitorSwitcherApp
@@ -39,8 +35,13 @@ namespace MonitorSwitcherApp
         {
             foreach(string s in profiles)
             {
-                profileBindingSource.Add(new Profile { Name = Path.GetFileName(s), Path = s });
+                AddToProfileList(DeserialiseProfile(s));
             }
+        }
+
+        private void AddToProfileList(Profile profile)
+        {
+            profileBindingSource.Add(profile);
         }
 
         private void bSaveProfile_Click(object sender, EventArgs e)
@@ -48,10 +49,42 @@ namespace MonitorSwitcherApp
             if(sfdProfileXML.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 MonitorSwitcher.SaveDisplaySettings(sfdProfileXML.FileName);
-                AddStringsToProfileList(sfdProfileXML.FileName);
-                Properties.Settings.Default.Profiles.Add(sfdProfileXML.FileName);
+
+                //Seralise the information
+                Profile profile = new Profile { Name = Path.GetFileNameWithoutExtension(sfdProfileXML.FileName), 
+                    Path = sfdProfileXML.FileName };
+                string serialisedProfile = SerialiseProfile(profile);
+
+                AddToProfileList(profile);
+                Properties.Settings.Default.Profiles.Add(serialisedProfile);
                 Properties.Settings.Default.Save();
             }
+        }
+
+        private string SerialiseProfile(Profile profile)
+        {
+            IFormatter formatter = new BinaryFormatter();
+            MemoryStream stream = new MemoryStream();
+            
+            formatter.Serialize(stream, profile);
+
+            stream.Position = 0;
+            BinaryReader br = new BinaryReader(stream);
+            byte[] bytes = br.ReadBytes((int)stream.Length);
+
+            return Convert.ToBase64String(bytes);
+        }
+
+        private Profile DeserialiseProfile(string profile)
+        {
+            IFormatter formatter = new BinaryFormatter();
+            MemoryStream stream = new MemoryStream();
+
+            byte[] bytes = Convert.FromBase64String(profile);
+            stream.Write(bytes, 0, bytes.Length);
+            stream.Position = 0;
+
+            return (Profile)formatter.Deserialize(stream);
         }
 
         private void bReset_Click(object sender, EventArgs e)
@@ -96,10 +129,11 @@ namespace MonitorSwitcherApp
         }
     }
 
+    [Serializable]
     public struct Profile
     {
         public string Name { get; set; }
         public string Path { get; set; }
-        public Hotkey hotkey { get; set; }
+        public Hotkey Hotkey { get; set; }
     }
 }

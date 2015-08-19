@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 //from https://bloggablea.wordpress.com/2007/05/01/global-hotkeys-with-net/
 namespace MovablePython
 {
+    [Serializable]
     public class Hotkey : IMessageFilter
 	{
 		#region Interop
