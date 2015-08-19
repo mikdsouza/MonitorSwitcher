@@ -29,11 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SwitcherWindow));
             this.pButtonPanel = new System.Windows.Forms.Panel();
-            this.bSaveProfile = new System.Windows.Forms.Button();
-            this.bReset = new System.Windows.Forms.Button();
-            this.gvProfiles = new System.Windows.Forms.DataGridView();
             this.bDelete = new System.Windows.Forms.Button();
+            this.bReset = new System.Windows.Forms.Button();
+            this.bSaveProfile = new System.Windows.Forms.Button();
+            this.gvProfiles = new System.Windows.Forms.DataGridView();
             this.sfdProfileXML = new System.Windows.Forms.SaveFileDialog();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pathDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -55,15 +56,16 @@
             this.pButtonPanel.Size = new System.Drawing.Size(284, 29);
             this.pButtonPanel.TabIndex = 1;
             // 
-            // bSaveProfile
+            // bDelete
             // 
-            this.bSaveProfile.Location = new System.Drawing.Point(3, 3);
-            this.bSaveProfile.Name = "bSaveProfile";
-            this.bSaveProfile.Size = new System.Drawing.Size(75, 23);
-            this.bSaveProfile.TabIndex = 0;
-            this.bSaveProfile.Text = "Save Profile";
-            this.bSaveProfile.UseVisualStyleBackColor = true;
-            this.bSaveProfile.Click += new System.EventHandler(this.bSaveProfile_Click);
+            this.bDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.bDelete.Location = new System.Drawing.Point(206, 3);
+            this.bDelete.Name = "bDelete";
+            this.bDelete.Size = new System.Drawing.Size(75, 23);
+            this.bDelete.TabIndex = 2;
+            this.bDelete.Text = "Delete Profile";
+            this.bDelete.UseVisualStyleBackColor = true;
+            this.bDelete.Click += new System.EventHandler(this.bDelete_Click);
             // 
             // bReset
             // 
@@ -75,6 +77,16 @@
             this.bReset.UseVisualStyleBackColor = true;
             this.bReset.Visible = false;
             this.bReset.Click += new System.EventHandler(this.bReset_Click);
+            // 
+            // bSaveProfile
+            // 
+            this.bSaveProfile.Location = new System.Drawing.Point(3, 3);
+            this.bSaveProfile.Name = "bSaveProfile";
+            this.bSaveProfile.Size = new System.Drawing.Size(75, 23);
+            this.bSaveProfile.TabIndex = 0;
+            this.bSaveProfile.Text = "Save Profile";
+            this.bSaveProfile.UseVisualStyleBackColor = true;
+            this.bSaveProfile.Click += new System.EventHandler(this.bSaveProfile_Click);
             // 
             // gvProfiles
             // 
@@ -97,19 +109,8 @@
             this.gvProfiles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gvProfiles.ShowEditingIcon = false;
             this.gvProfiles.Size = new System.Drawing.Size(284, 232);
-            this.gvProfiles.TabIndex = 2;
+            this.gvProfiles.TabIndex = 0;
             this.gvProfiles.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvProfiles_CellDoubleClick);
-            // 
-            // bDelete
-            // 
-            this.bDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bDelete.Location = new System.Drawing.Point(206, 3);
-            this.bDelete.Name = "bDelete";
-            this.bDelete.Size = new System.Drawing.Size(75, 23);
-            this.bDelete.TabIndex = 2;
-            this.bDelete.Text = "Delete Profile";
-            this.bDelete.UseVisualStyleBackColor = true;
-            this.bDelete.Click += new System.EventHandler(this.bDelete_Click);
             // 
             // sfdProfileXML
             // 
@@ -143,8 +144,8 @@
             this.Controls.Add(this.gvProfiles);
             this.Controls.Add(this.pButtonPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "SwitcherWindow";
             this.Text = "SwitcherWindow";
             this.Load += new System.EventHandler(this.SwitcherWindow_Load);
