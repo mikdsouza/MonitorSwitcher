@@ -33,10 +33,11 @@
             this.bSaveProfile = new System.Windows.Forms.Button();
             this.bReset = new System.Windows.Forms.Button();
             this.gvProfiles = new System.Windows.Forms.DataGridView();
+            this.bDelete = new System.Windows.Forms.Button();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pathDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.profileBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.bDelete = new System.Windows.Forms.Button();
+            this.sfdProfileXML = new System.Windows.Forms.SaveFileDialog();
             this.pButtonPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvProfiles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.profileBindingSource)).BeginInit();
@@ -98,6 +99,17 @@
             this.gvProfiles.Size = new System.Drawing.Size(284, 232);
             this.gvProfiles.TabIndex = 2;
             // 
+            // bDelete
+            // 
+            this.bDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.bDelete.Location = new System.Drawing.Point(206, 3);
+            this.bDelete.Name = "bDelete";
+            this.bDelete.Size = new System.Drawing.Size(75, 23);
+            this.bDelete.TabIndex = 2;
+            this.bDelete.Text = "Delete Profile";
+            this.bDelete.UseVisualStyleBackColor = true;
+            this.bDelete.Click += new System.EventHandler(this.bDelete_Click);
+            // 
             // nameDataGridViewTextBoxColumn
             // 
             this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
@@ -117,16 +129,10 @@
             // 
             this.profileBindingSource.DataSource = typeof(MonitorSwitcherApp.Profile);
             // 
-            // bDelete
+            // sfdProfileXML
             // 
-            this.bDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bDelete.Location = new System.Drawing.Point(206, 3);
-            this.bDelete.Name = "bDelete";
-            this.bDelete.Size = new System.Drawing.Size(75, 23);
-            this.bDelete.TabIndex = 2;
-            this.bDelete.Text = "Delete Profile";
-            this.bDelete.UseVisualStyleBackColor = true;
-            this.bDelete.Click += new System.EventHandler(this.bDelete_Click);
+            this.sfdProfileXML.DefaultExt = "xml";
+            this.sfdProfileXML.Filter = "XML Files (*.xml) | *.xml";
             // 
             // SwitcherWindow
             // 
@@ -158,5 +164,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn pathDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource profileBindingSource;
         private System.Windows.Forms.Button bDelete;
+        private System.Windows.Forms.SaveFileDialog sfdProfileXML;
     }
 }

@@ -1,8 +1,10 @@
-﻿using System;
+﻿using MonitorSwitcherGUI;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,15 +38,19 @@ namespace MonitorSwitcherApp
         {
             foreach(string s in profiles)
             {
-                profileBindingSource.Add(new Profile { Name = s, Path = s });
+                profileBindingSource.Add(new Profile { Name = Path.GetFileName(s), Path = s });
             }
         }
 
         private void bSaveProfile_Click(object sender, EventArgs e)
         {
-            AddStringsToProfileList("lol");
-            Properties.Settings.Default.Profiles.Add("lol");
-            Properties.Settings.Default.Save();
+            if(sfdProfileXML.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                MonitorSwitcher.SaveDisplaySettings(sfdProfileXML.FileName);
+                AddStringsToProfileList(sfdProfileXML.FileName);
+                Properties.Settings.Default.Profiles.Add(sfdProfileXML.FileName);
+                Properties.Settings.Default.Save();
+            }
         }
 
         private void bReset_Click(object sender, EventArgs e)
