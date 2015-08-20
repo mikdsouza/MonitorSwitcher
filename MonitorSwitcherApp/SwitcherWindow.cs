@@ -67,7 +67,7 @@ namespace MonitorSwitcherApp
         {
             IFormatter formatter = new BinaryFormatter();
             MemoryStream stream = new MemoryStream();
-            
+
             formatter.Serialize(stream, profile);
 
             stream.Position = 0;
@@ -159,14 +159,18 @@ namespace MonitorSwitcherApp
                                 //Get the current position of this in the settings. We will have to save it there
                                 int pos = Properties.Settings.Default.Profiles.IndexOf(SerialiseProfile(selection));
 
-                                if(selection.Hotkey != null)
+                                if (selection.Hotkey != null)
+                                {
                                     selection.Hotkey.Unregister();
+                                }
 
                                 selection.Hotkey = new Hotkey(getHotkey.Key, getHotkey.Shift, getHotkey.Ctrl, getHotkey.Alt, false);
-                                RegisterHotkey(selection);
 
                                 //Save the profile in settings
                                 Properties.Settings.Default.Profiles[pos] = SerialiseProfile(selection);
+                                Properties.Settings.Default.Save();
+
+                                RegisterHotkey(selection);
                             }
                         };
 

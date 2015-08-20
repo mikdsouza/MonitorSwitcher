@@ -29,7 +29,9 @@ namespace MovablePython
 
 		#endregion
 
+        [NonSerialized]
 		private static int currentID;
+        [NonSerialized]
 		private const int maximumID = 0xBFFF;
 		
 		private Keys keyCode;
@@ -38,13 +40,14 @@ namespace MovablePython
         private bool alt;
 		private bool windows;
 
-		[XmlIgnore]
+		[XmlIgnore, NonSerialized]
 		private int id;
-		[XmlIgnore]
+		[XmlIgnore, NonSerialized]
 		private bool registered;
-		[XmlIgnore]
+        [XmlIgnore, NonSerialized]
 		private Control windowControl;
 
+        [field:NonSerialized]
 		public event HandledEventHandler Pressed;
 
 		public Hotkey() : this(Keys.None, false, false, false, false)
