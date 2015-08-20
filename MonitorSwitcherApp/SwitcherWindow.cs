@@ -1,6 +1,7 @@
 ﻿using MonitorSwitcherGUI;
 using MovablePython;
 using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -42,6 +43,7 @@ namespace MonitorSwitcherApp
         private void AddToProfileList(Profile profile)
         {
             profileBindingSource.Add(profile);
+            RegisterHotkey(profile);
         }
 
         private void bSaveProfile_Click(object sender, EventArgs e)
@@ -114,17 +116,72 @@ namespace MonitorSwitcherApp
         {
             Profile selection = (Profile)profileBindingSource[e.RowIndex];
 
+            selection = ChangeToProfile(selection);
+        }
+
+        private Profile ChangeToProfile(Profile selection)
+        {
             if (File.Exists(selection.Path))
             {
                 MonitorSwitcher.LoadDisplaySettings(selection.Path);
             }
             else
             {
-                if(MessageBox.Show("Profile not found. Delete profile?", "Error", MessageBoxButtons.YesNo, 
-                    MessageBoxIcon.Error,MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
+                if (MessageBox.Show("Profile not found. Delete profile?", "Error", MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Error, MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
                 {
-                    bDelete_Click(sender, null);
+                    bDelete_Click(null, null);
                 }
+            }
+            return selection;
+        }
+
+        //from http://stackoverflow.com/a/1718483
+        private void gvProfiles_MouseClick(object sender, MouseEventArgs e)
+        {
+            if(e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                int currentMouseOverRow = gvProfiles.HitTest(e.X, e.Y).RowIndex;
+
+                if (currentMouseOverRow >= 0)
+                {
+                    profileBindingSource.Position = currentMouseOverRow;
+
+                    ContextMenu m = new ContextMenu();
+                    m.MenuItems.Add(new MenuItem("Add Hotkey"));
+                    m.MenuItems[0].Click += (s, eArgs) =>
+                        {
+                            GetHotkey getHotkey = new GetHotkey();
+                            if (getHotkey.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                            {
+                                Profile selection = (Profile)profileBindingSource[currentMouseOverRow];
+
+                                //Get the current position of this in the settings. We will have to save it there
+                                int pos = Properties.Settings.Default.Profiles.IndexOf(SerialiseProfile(selection));
+
+                                if(selection.Hotkey != null)
+                                    selection.Hotkey.Unregister();
+
+                                selection.Hotkey = new Hotkey(getHotkey.Key, getHotkey.Shift, getHotkey.Ctrl, getHotkey.Alt, false);
+                                RegisterHotkey(selection);
+
+                                //Save the profile in settings
+                                Properties.Settings.Default.Profiles[pos] = SerialiseProfile(selection);
+                            }
+                        };
+
+                    m.Show(gvProfiles, new Point(e.X, e.Y));
+                }
+            }
+        }
+
+        private void RegisterHotkey(Profile selection)
+        {
+            if (selection.Hotkey != null)
+            {
+                selection.Hotkey.Register(this);
+
+                selection.Hotkey.Pressed += delegate { ChangeToProfile(selection); };
             }
         }
     }

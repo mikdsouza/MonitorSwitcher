@@ -35,10 +35,10 @@
             this.bReset = new System.Windows.Forms.Button();
             this.bSaveProfile = new System.Windows.Forms.Button();
             this.gvProfiles = new System.Windows.Forms.DataGridView();
-            this.sfdProfileXML = new System.Windows.Forms.SaveFileDialog();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pathDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.profileBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.sfdProfileXML = new System.Windows.Forms.SaveFileDialog();
             this.pButtonPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvProfiles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.profileBindingSource)).BeginInit();
@@ -111,11 +111,7 @@
             this.gvProfiles.Size = new System.Drawing.Size(284, 232);
             this.gvProfiles.TabIndex = 0;
             this.gvProfiles.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvProfiles_CellDoubleClick);
-            // 
-            // sfdProfileXML
-            // 
-            this.sfdProfileXML.DefaultExt = "xml";
-            this.sfdProfileXML.Filter = "XML Files (*.xml) | *.xml";
+            this.gvProfiles.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gvProfiles_MouseClick);
             // 
             // nameDataGridViewTextBoxColumn
             // 
@@ -135,6 +131,11 @@
             // profileBindingSource
             // 
             this.profileBindingSource.DataSource = typeof(MonitorSwitcherApp.Profile);
+            // 
+            // sfdProfileXML
+            // 
+            this.sfdProfileXML.DefaultExt = "xml";
+            this.sfdProfileXML.Filter = "XML Files (*.xml) | *.xml";
             // 
             // SwitcherWindow
             // 
