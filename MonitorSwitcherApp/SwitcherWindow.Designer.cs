@@ -35,10 +35,11 @@
             this.bReset = new System.Windows.Forms.Button();
             this.bSaveProfile = new System.Windows.Forms.Button();
             this.gvProfiles = new System.Windows.Forms.DataGridView();
+            this.profileBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.sfdProfileXML = new System.Windows.Forms.SaveFileDialog();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Hotkey = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pathDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.profileBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.pButtonPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvProfiles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.profileBindingSource)).BeginInit();
@@ -98,6 +99,7 @@
             this.gvProfiles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvProfiles.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.nameDataGridViewTextBoxColumn,
+            this.Hotkey,
             this.pathDataGridViewTextBoxColumn});
             this.gvProfiles.DataSource = this.profileBindingSource;
             this.gvProfiles.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -113,6 +115,10 @@
             this.gvProfiles.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvProfiles_CellDoubleClick);
             this.gvProfiles.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gvProfiles_MouseClick);
             // 
+            // profileBindingSource
+            // 
+            this.profileBindingSource.DataSource = typeof(MonitorSwitcherApp.Profile);
+            // 
             // sfdProfileXML
             // 
             this.sfdProfileXML.DefaultExt = "xml";
@@ -125,6 +131,13 @@
             this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
             this.nameDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // Hotkey
+            // 
+            this.Hotkey.DataPropertyName = "Hotkey";
+            this.Hotkey.HeaderText = "Hotkey";
+            this.Hotkey.Name = "Hotkey";
+            this.Hotkey.ReadOnly = true;
+            // 
             // pathDataGridViewTextBoxColumn
             // 
             this.pathDataGridViewTextBoxColumn.DataPropertyName = "Path";
@@ -132,10 +145,6 @@
             this.pathDataGridViewTextBoxColumn.Name = "pathDataGridViewTextBoxColumn";
             this.pathDataGridViewTextBoxColumn.ReadOnly = true;
             this.pathDataGridViewTextBoxColumn.Visible = false;
-            // 
-            // profileBindingSource
-            // 
-            this.profileBindingSource.DataSource = typeof(MonitorSwitcherApp.Profile);
             // 
             // SwitcherWindow
             // 
@@ -164,10 +173,11 @@
         private System.Windows.Forms.Button bSaveProfile;
         private System.Windows.Forms.Button bReset;
         private System.Windows.Forms.DataGridView gvProfiles;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn pathDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource profileBindingSource;
         private System.Windows.Forms.Button bDelete;
         private System.Windows.Forms.SaveFileDialog sfdProfileXML;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Hotkey;
+        private System.Windows.Forms.DataGridViewTextBoxColumn pathDataGridViewTextBoxColumn;
     }
 }
