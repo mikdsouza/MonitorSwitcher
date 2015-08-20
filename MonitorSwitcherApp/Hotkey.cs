@@ -29,9 +29,7 @@ namespace MovablePython
 
 		#endregion
 
-        [NonSerialized]
 		private static int currentID;
-        [NonSerialized]
 		private const int maximumID = 0xBFFF;
 		
 		private Keys keyCode;
@@ -40,7 +38,7 @@ namespace MovablePython
         private bool alt;
 		private bool windows;
 
-		[XmlIgnore, NonSerialized]
+		[XmlIgnore]
 		private int id;
 		[XmlIgnore, NonSerialized]
 		private bool registered;

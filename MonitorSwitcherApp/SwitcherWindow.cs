@@ -26,10 +26,10 @@ namespace MonitorSwitcherApp
             AddStringsToProfileList(Properties.Settings.Default.Profiles.Cast<string>().ToArray());
 
             //Hide the reset button if need be
-            #if DEBUG
-                bReset.Visible = true;
-                pathDataGridViewTextBoxColumn.Visible = true;
-            #endif
+#if DEBUG
+            bReset.Visible = true;
+            pathDataGridViewTextBoxColumn.Visible = true;
+#endif
         }
 
         private void AddStringsToProfileList(params string[] profiles)
@@ -43,6 +43,13 @@ namespace MonitorSwitcherApp
         private void AddToProfileList(Profile profile)
         {
             profileBindingSource.Add(profile);
+
+            //Something about the deseralisation process causes the hotkeys to not work
+            //Have to do this to resolve it
+            if (profile.Hotkey != null)
+                profile.Hotkey = new Hotkey(profile.Hotkey.KeyCode, profile.Hotkey.Shift, 
+                    profile.Hotkey.Control, profile.Hotkey.Alt, false);
+
             RegisterHotkey(profile);
         }
 
@@ -152,14 +159,22 @@ namespace MonitorSwitcherApp
                     m.MenuItems[0].Click += (s, eArgs) =>
                         {
                             GetHotkey getHotkey = new GetHotkey();
+                            Profile selection = (Profile)profileBindingSource[currentMouseOverRow];
+
+                            if(selection.Hotkey != null)
+                            {
+                                getHotkey.Key = selection.Hotkey.KeyCode;
+                                getHotkey.Shift = selection.Hotkey.Shift;
+                                getHotkey.Alt = selection.Hotkey.Alt;
+                                getHotkey.Ctrl = selection.Hotkey.Control;
+                            }
+
                             if (getHotkey.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                             {
-                                Profile selection = (Profile)profileBindingSource[currentMouseOverRow];
-
                                 //Get the current position of this in the settings. We will have to save it there
                                 int pos = Properties.Settings.Default.Profiles.IndexOf(SerialiseProfile(selection));
 
-                                if (selection.Hotkey != null)
+                                if (selection.Hotkey != null && selection.Hotkey.Registered)
                                 {
                                     selection.Hotkey.Unregister();
                                 }
@@ -167,7 +182,8 @@ namespace MonitorSwitcherApp
                                 selection.Hotkey = new Hotkey(getHotkey.Key, getHotkey.Shift, getHotkey.Ctrl, getHotkey.Alt, false);
 
                                 //Save the profile in settings
-                                Properties.Settings.Default.Profiles[pos] = SerialiseProfile(selection);
+                                Properties.Settings.Default.Profiles[pos] = SerialiseProfile(selection);                                
+
                                 Properties.Settings.Default.Save();
 
                                 RegisterHotkey(selection);
@@ -181,11 +197,23 @@ namespace MonitorSwitcherApp
 
         private void RegisterHotkey(Profile selection)
         {
-            if (selection.Hotkey != null)
+            if (selection.Hotkey != null && !selection.Hotkey.Registered)
             {
                 selection.Hotkey.Register(this);
 
                 selection.Hotkey.Pressed += delegate { ChangeToProfile(selection); };
+            }
+        }
+
+        private void SwitcherWindow_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            //Unregister all the hotkeys
+            foreach(Profile p in profileBindingSource)
+            {
+                if(p.Hotkey != null && p.Hotkey.Registered)
+                {
+                    p.Hotkey.Unregister();
+                }
             }
         }
     }

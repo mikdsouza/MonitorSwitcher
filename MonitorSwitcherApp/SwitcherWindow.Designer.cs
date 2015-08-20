@@ -35,10 +35,10 @@
             this.bReset = new System.Windows.Forms.Button();
             this.bSaveProfile = new System.Windows.Forms.Button();
             this.gvProfiles = new System.Windows.Forms.DataGridView();
+            this.sfdProfileXML = new System.Windows.Forms.SaveFileDialog();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pathDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.profileBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.sfdProfileXML = new System.Windows.Forms.SaveFileDialog();
             this.pButtonPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvProfiles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.profileBindingSource)).BeginInit();
@@ -113,6 +113,11 @@
             this.gvProfiles.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvProfiles_CellDoubleClick);
             this.gvProfiles.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gvProfiles_MouseClick);
             // 
+            // sfdProfileXML
+            // 
+            this.sfdProfileXML.DefaultExt = "xml";
+            this.sfdProfileXML.Filter = "XML Files (*.xml) | *.xml";
+            // 
             // nameDataGridViewTextBoxColumn
             // 
             this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
@@ -132,11 +137,6 @@
             // 
             this.profileBindingSource.DataSource = typeof(MonitorSwitcherApp.Profile);
             // 
-            // sfdProfileXML
-            // 
-            this.sfdProfileXML.DefaultExt = "xml";
-            this.sfdProfileXML.Filter = "XML Files (*.xml) | *.xml";
-            // 
             // SwitcherWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -149,6 +149,7 @@
             this.MaximizeBox = false;
             this.Name = "SwitcherWindow";
             this.Text = "SwitcherWindow";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SwitcherWindow_FormClosed);
             this.Load += new System.EventHandler(this.SwitcherWindow_Load);
             this.pButtonPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gvProfiles)).EndInit();
