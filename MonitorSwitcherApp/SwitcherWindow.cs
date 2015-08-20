@@ -36,7 +36,20 @@ namespace MonitorSwitcherApp
         {
             foreach(string s in profiles)
             {
-                AddToProfileList(DeserialiseProfile(s));
+                try
+                {
+                    AddToProfileList(DeserialiseProfile(s));
+                }
+                catch(FormatException)
+                {
+                    //Data is corrupted. Should not use any of it
+                    Properties.Settings.Default.Reset();
+                    Properties.Settings.Default.Save();
+
+                    Properties.Settings.Default.Profiles = new System.Collections.Specialized.StringCollection();
+
+                    return;
+                }
             }
         }
 
@@ -116,6 +129,7 @@ namespace MonitorSwitcherApp
 
                 profileBindingSource.RemoveCurrent();
                 Properties.Settings.Default.Profiles.Remove(selection.Path);
+                Properties.Settings.Default.Save();
             }
         }
 
